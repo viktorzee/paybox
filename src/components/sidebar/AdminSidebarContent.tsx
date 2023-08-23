@@ -41,7 +41,7 @@ const AdminSidebarContent = () => {
         <SidebarButton icon={<CiShop />} title="Sale Hub" path="#" showChevron />
         <SidebarButton icon={<HiMiniCube />} title="Talent Management" path="#" showChevron />
         <SidebarButton icon={<FaCreditCard />} title="Spend Management" path="#" showChevron />
-        <SidebarButton icon={<FaCreditCard />} title="Cards" path="#" showChevron />
+        <SidebarButton icon={<FaCreditCard />} title="Cards" path="#" />
       </div>
 
     

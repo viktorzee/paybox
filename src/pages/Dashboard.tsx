@@ -197,7 +197,7 @@ const Dashboard = () => {
                   />
                   <p className="text-[rgba(55,71,79,1)] font-medium text-xs">Successful</p>
                 </div>              
-                <p className="text-sm md:text-base xl:text-lg font-semibold text-[rgba(3,34,130,1)] font-sora">422</p>
+                <p className="text-sm md:text-base xl:text-lg font-semibold text-[rgba(3,34,130,1)] font-sora text-center">422</p>
               </div>
               <div className="">
               <div className="flex items-center">
@@ -207,7 +207,7 @@ const Dashboard = () => {
                   />
                   <p className="text-[rgba(55,71,79,1)] font-medium text-xs">Failed</p>
                 </div>
-                <p className="text-sm md:text-base xl:text-lg text-[rgba(3,34,130,1)] font-sora font-semibold">18</p>
+                <p className="text-sm md:text-base xl:text-lg text-[rgba(3,34,130,1)] font-sora text-center font-semibold">18</p>
               </div>
             </div>                            
           </div>

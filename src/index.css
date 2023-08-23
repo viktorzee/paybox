@@ -111,3 +111,23 @@
 		visibility: hidden;
 	}
 }
+
+
+.recharts-surface {
+	position: absolute;
+    bottom: 6rem;
+    left: -3rem;
+}
+
+.recharts-curve{
+	display: none;
+}
+
+@media (min-width: 768px) {
+	.recharts-surface {
+	  position: absolute;
+	  bottom: 8rem;
+	  left: -3rem;
+	 
+	}
+}

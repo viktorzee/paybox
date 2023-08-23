@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Link } from 'react-router-dom';
-import { FaAward, FaCreditCard, FaUser } from "react-icons/fa";
+import { FaAward, FaCreditCard } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { RiHome5Line } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
+import { ImFeed } from "react-icons/im";
 import { BsFillWalletFill } from "react-icons/bs";
 import { CiShop } from "react-icons/ci";
 import { HiMiniCube } from "react-icons/hi2";
@@ -50,7 +51,7 @@ const AdminSidebarContent = () => {
       <div className="w-full mt-4 border-t border-white border-dashed border-opacity-20 pt-4">
         <SidebarButton icon={<FaAward />} title="Leaderboard" path="#" />
         <SidebarButton icon={<CgProfile />} title="Profile & Settings" path="#" />
-        <SidebarButton icon={<FaUser />} title="Bank performance" path="#" showChevron />
+        <SidebarButton icon={<ImFeed />} title="Bank performance" path="#" showChevron />
       </div>
     </div>
   );

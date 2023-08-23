@@ -2,9 +2,39 @@ import {  FaEye, FaEyeSlash } from "react-icons/fa";
 import NotificationPower from "../components/NotificationPower";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { PieChart } from "react-minimal-pie-chart";
 import {BsChevronDoubleRight} from "react-icons/bs"
+import { PieChart, Pie, Cell, PieLabelRenderProps } from 'recharts';
 
+interface DataItem {
+  title: string;
+  value: number;
+  color: string;
+}
+
+const data: DataItem[] = [
+  { title: 'Send Money', value: 75, color: 'rgba(3, 34, 130, 1)' },
+  { title: 'Cashout', value: 12, color: 'rgba(244, 190, 55, 1)' },
+  { title: 'Bills and Utilities', value: 12, color: 'rgba(237, 225, 255, 1)' },
+];
+
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: PieLabelRenderProps) => {
+  const numericInnerRadius = typeof innerRadius === 'number' ? innerRadius : 0;
+  const numericOuterRadius = typeof outerRadius === 'number' ? outerRadius : numericInnerRadius + 20;
+  const radius = numericInnerRadius + (numericOuterRadius - numericInnerRadius) * 0.8;
+  const x = +cx! + radius * Math.cos(-midAngle * (Math.PI / 180));
+  const y = +cy! + radius * Math.sin(-midAngle * (Math.PI / 180));
+
+  const circleRadius = 15;
+
+  return (
+    <>
+      <circle cx={x} cy={y} r={circleRadius} fill="white"  />
+      <text x={x} y={y} fill="#333" textAnchor="middle" dominantBaseline="central">
+        {`${(percent! * 100).toFixed(0)}%`}
+      </text>
+    </>
+  );
+};
 
 
 const Dashboard = () => {
@@ -13,7 +43,6 @@ const Dashboard = () => {
   const toggleBalanceView = () => {
     setShowBalance(!showBalance);
   }
-  const lineWidth = 26;
   const balanceRow = [
     {
       title: "Total savings balance",
@@ -71,14 +100,14 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-3 gap-2 md:gap-4 lg:gap-6 p-5">
         <div className="bg-[rgba(3,34,130,1)] p-6 rounded-lg">
           <div>
-            <h3 className="text-white">Wallet Balance</h3>
-            <div className="flex items-center mb-4 md:mb-7 xl:mb-4">
-              <p className="mr-4 font-semibold text-white">
+            <h3 className="text-white mt-3 font-nunito">Wallet Balance</h3>
+            <div className="flex items-center mb-4 md:mb-7 xl:mb-6">
+              <p className="mr-4 font-semibold text-white font-sora">
                 {showBalance ? "****" :
                 "₦50,000,000"                  
                 }
               </p>
-              <div onClick={toggleBalanceView} className="text-white">
+              <div onClick={toggleBalanceView} className="text-white text-2xl">
                 {!showBalance ? <FaEyeSlash  /> : <FaEye />}
               </div>
             </div>
@@ -99,7 +128,7 @@ const Dashboard = () => {
               <p className="font-semibold md:mt-6 text-[rgba(3,34,130,1)] font-sora">{bal.amount}</p>
             </div>
             <Link to="#" className="font-normal text-xs md:mr-6 text-[rgba(3,34,130,1)] font-sora">
-              <div className="flex items-center">
+              <div className="flex items-center p-2">
               View details            
               <BsChevronDoubleRight className="text-[rgba(3,34,130,1)]" />
 
@@ -290,9 +319,9 @@ const Dashboard = () => {
             </div>                            
           </div>
         </div>          
-        <div className="md:col-span-2 bg-[rgba(255,255,255,1)] font-bold  p-3 rounded-lg md:flex justify-around">                        
+        <div className="md:col-span-2 bg-[rgba(255,255,255,1)] font-bold  p-3 rounded-lg md:flex justify-around md:h-[13rem] h-[25rem] overflow-hidden">                        
           <div className="mt-7">
-            <p className="text-base text-[rgba(55,71,79,1)] font-semibold mb-5">Transaction Comparative</p>
+            <p className="text-base font-nunito text-[rgba(55,71,79,1)] font-medium mb-5">Transaction Comparative</p>
             
             <div className="mb-5">
               <div className="flex items-center">
@@ -302,7 +331,7 @@ const Dashboard = () => {
                 />
                 <p className="text-[rgba(55,71,79,1)] font-normal text-xs">Send Money</p>
               </div>
-              <p className="font-semibold text-[rgba(38,50,56,1)] text-base">₦150,000,000</p>
+              <p className="font-semibold font-sora text-[rgba(38,50,56,1)] text-base">₦150,000,000</p>
             </div>
             <div className="grid grid-cols-2">                   
               <div>
@@ -313,7 +342,7 @@ const Dashboard = () => {
                   />
                   <p className="text-[rgba(55,71,79,1)] font-medium text-xs">Cashout</p>
                 </div>
-                <p className="text-sm md:text-base font-semibold text-[rgba(38,50,56,1)]">₦12,000,000</p>
+                <p className="text-sm md:text-base font-sora font-semibold text-[rgba(38,50,56,1)] mr-3">₦12,000,000</p>
               </div>
               <div>
                 <div className="flex items-center">
@@ -323,35 +352,31 @@ const Dashboard = () => {
                   />
                   <p className="text-[rgba(55,71,79,1)] font-medium text-xs">Utilities and Bills</p>
                 </div>
-                <p className="text-sm md:text-base font-semibold text-[rgba(38,50,56,1)]">₦42,000,000</p>
+                <p className="text-sm md:text-base font-semibold font-sora text-[rgba(38,50,56,1)]">₦42,000,000</p>
               </div>
 
             </div>
           </div>
-          <div className="mt-4" style={{ height: '10rem' }}>
-              <PieChart
-                data={[
-                  { title: 'Send Money', value: 75, color: 'rgba(3, 34, 130, 1)' },
-                  { title: 'Cashout', value: 12, color: 'rgba(244, 190, 55, 1)' },
-                  { title: 'Bills and Utilities', value: 12, color: 'rgba(237, 225, 255, 1)' },
-                ]}
-                startAngle={120}
-                lineWidth={30}
-                paddingAngle={7}
-                label={({ dataEntry }) => {
-                  return `${Math.round(dataEntry.percentage)}%`;
-                }}
-                labelPosition={100 - lineWidth / 2}
-                labelStyle={() => ({
-                  fontSize: '8px',
-                  fontFamily: 'sans-serif',
-                  fill: '#fff',
-                  background: '#000',
-                  backgroundColor: "#000", 
-                  borderRadius: '5px', // Rounded corners for the background
-                  padding: '5px', // Padding for the background
-                })}
-              />
+          <div className="mt-4">
+          <PieChart width={300} height={400}>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="title"
+              cx="50%"
+              cy="50%"
+              innerRadius={60}
+              outerRadius={85}
+              paddingAngle={2}
+              cornerRadius={5}      
+              fill="#8884d8"
+              label={renderCustomizedLabel}
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+          </PieChart>
           </div>
         </div>
         
